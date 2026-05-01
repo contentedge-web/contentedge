@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ContentEdge — LinkedIn Content & Client Systems</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#1D9E75;--green-dark:#0d7a57;--green-bright:#2EC890;--green-light:#e6f7f1;
+  --navy:#0e0e1a;--navy2:#16162a;--navy3:#1e1e35;
+  --cream:#f8f5ef;--cream2:#f0ece3;
+  --text:#0e0e1a;--muted:#6b7280;--light:#9ca3af;
+  --border:rgba(0,0,0,0.08);--border-light:rgba(255,255,255,0.08);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',Arial,sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden;line-height:1.6}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;height:66px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;background:rgba(248,245,239,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:21px;color:var(--navy);text-decoration:none}
+.logo span{color:var(--green)}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:14px;font-weight:500;color:var(--muted);text-decoration:none}
+.nav-links a:hover{color:var(--green)}
+.nav-btn{background:var(--navy);color:#fff !important;padding:9px 20px;border-radius:50px;font-size:13px !important;font-weight:700 !important}
+.nav-btn:hover{background:var(--green) !important}
+@media(max-width:768px){.nav-links a:not(.nav-btn){display:none}}
+
+/* ── HERO ── */
+.hero{padding:110px 5% 80px;background:var(--cream);position:relative;overflow:hidden}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1200px;margin:0 auto}
+.hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(29,158,117,0.1),transparent 70%);top:-100px;right:-100px;pointer-events:none}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;background:var(--navy);color:var(--green-bright);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:7px 16px;border-radius:50px;margin-bottom:24px}
+.hero-pill-dot{width:6px;height:6px;border-radius:50%;background:var(--green-bright);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+h1{font-family:'Syne',sans-serif;font-size:clamp(40px,5vw,68px);font-weight:800;line-height:1.02;letter-spacing:-2px;color:var(--navy);margin-bottom:22px}
+h1 .green{color:var(--green)}
+.hero-sub{font-size:17px;color:var(--muted);line-height:1.75;margin-bottom:36px;max-width:460px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:40px}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;padding:14px 28px;border-radius:50px;font-size:15px;font-weight:700;text-decoration:none;transition:all .2s;box-shadow:0 6px 24px rgba(29,158,117,.35)}
+.btn-primary:hover{background:var(--green-dark);transform:translateY(-2px)}
+.btn-secondary{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--navy);padding:14px 28px;border-radius:50px;font-size:15px;font-weight:700;text-decoration:none;border:2px solid rgba(0,0,0,.12);transition:all .2s}
+.btn-secondary:hover{border-color:var(--green);color:var(--green);background:var(--green-light)}
+.hero-social-proof{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--muted)}
+.avatars{display:flex}
+.avatar{width:28px;height:28px;border-radius:50%;border:2px solid var(--cream);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:#fff}
+.avatar:nth-child(1){background:var(--navy);margin-right:-7px;z-index:3}
+.avatar:nth-child(2){background:var(--green);margin-right:-7px;z-index:2}
+.avatar:nth-child(3){background:#2a4a7a;z-index:1}
+
+/* Hero product cards */
+.hero-cards{display:flex;flex-direction:column;gap:14px}
+.hcard{background:#fff;border:1px solid var(--border);border-radius:20px;padding:22px 26px;box-shadow:0 2px 16px rgba(0,0,0,.06);transition:transform .3s}
+.hcard:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(0,0,0,.1)}
+.hcard.featured{border:2px solid var(--green);box-shadow:0 2px 20px rgba(29,158,117,.18)}
+.hcard-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.hcard h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:5px}
+.hcard p{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:10px}
+.hcard-price{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--green);letter-spacing:-1px}
+.hcard-free-tag{display:inline-block;background:var(--navy);color:var(--green-bright);font-size:10px;font-weight:700;padding:2px 10px;border-radius:50px;letter-spacing:.08em;text-transform:uppercase}
+
+/* ── TICKER ── */
+.ticker{background:var(--navy);padding:14px 0;overflow:hidden}
+.ticker-track{display:flex;animation:scroll 24s linear infinite;width:max-content}
+.ticker-item{display:flex;align-items:center;gap:10px;padding:0 32px;white-space:nowrap;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.ticker-item b{color:var(--green-bright)}
+.tdot{width:4px;height:4px;border-radius:50%;background:var(--green);flex-shrink:0}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ── SECTION BASE ── */
+section{padding:90px 5%}
+.section-inner{max-width:1100px;margin:0 auto}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:14px}
+.section-title{font-family:'Syne',sans-serif;font-size:clamp(30px,3.6vw,48px);font-weight:800;letter-spacing:-1.5px;color:var(--navy);line-height:1.05;margin-bottom:18px}
+.section-sub{font-size:16px;color:var(--muted);max-width:540px;line-height:1.75}
+.centered{text-align:center}
+.centered .section-sub{margin:0 auto}
+
+/* ── HOW IT WORKS ── */
+.how-section{background:var(--navy)}
+.how-section .eyebrow{color:var(--green-bright)}
+.how-section .section-title{color:#fff}
+.how-section .section-sub{color:rgba(255,255,255,.45)}
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:56px}
+.step-card{background:var(--navy2);padding:38px 30px;border:1px solid var(--border-light);transition:background .3s}
+.step-card:first-child{border-radius:20px 0 0 20px}
+.step-card:last-child{border-radius:0 20px 20px 0}
+.step-card:hover{background:var(--navy3)}
+.step-number{font-family:'Syne',sans-serif;font-size:68px;font-weight:800;color:rgba(29,158,117,.1);line-height:1;margin-bottom:18px;letter-spacing:-4px}
+.step-icon{font-size:22px;margin-bottom:16px;display:block}
+.step-card h4{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:10px}
+.step-card p{font-size:14px;color:rgba(255,255,255,.42);line-height:1.75}
+@media(max-width:768px){
+  .steps-grid{grid-template-columns:1fr;gap:8px}
+  .step-card:first-child,.step-card:last-child{border-radius:16px}
+  .step-card{border-radius:16px}
+}
+
+/* ── FREEBIE ── */
+.free-section{background:var(--cream2)}
+.free-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;max-width:1100px;margin:0 auto}
+.free-list{list-style:none;margin:24px 0 32px}
+.free-list li{display:flex;align-items:flex-start;gap:12px;padding:9px 0;border-bottom:1px solid rgba(0,0,0,.06);font-size:15px;color:var(--text);line-height:1.5}
+.free-list li:last-child{border:none}
+.tick{width:22px;height:22px;min-width:22px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:700;margin-top:1px}
+.free-panel{background:var(--navy);border-radius:20px;padding:36px}
+.free-panel h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#fff;margin-bottom:6px}
+.free-panel .subtitle{font-size:13px;color:rgba(255,255,255,.35);margin-bottom:22px}
+.preview-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:20px;margin-bottom:20px}
+.preview-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green-bright);margin-bottom:12px}
+.preview-text{font-size:13px;color:rgba(255,255,255,.6);line-height:1.95;font-style:italic}
+.preview-text .bracket{color:var(--green-bright);font-style:normal;font-weight:700}
+.cta-strip{background:var(--green);border-radius:12px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.cta-strip-text p{font-size:14px;font-weight:700;color:#fff}
+.cta-strip-text span{font-size:11px;color:rgba(255,255,255,.7)}
+.btn-white{display:inline-block;background:#fff;color:var(--green);padding:9px 18px;border-radius:50px;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;transition:transform .2s}
+.btn-white:hover{transform:scale(1.04)}
+@media(max-width:768px){.free-grid{grid-template-columns:1fr;gap:40px}}
+
+/* ── PRODUCTS ── */
+.products-section{background:var(--cream)}
+.products-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:900px;margin:56px auto 0}
+.product-card{background:#fff;border:1px solid var(--border);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s}
+.product-card:hover{transform:translateY(-5px);box-shadow:0 20px 56px rgba(0,0,0,.1)}
+.product-card.featured{border:2px solid var(--green);box-shadow:0 0 0 1px var(--green)}
+.product-top{padding:30px;border-bottom:1px solid var(--border)}
+.product-card.featured .product-top{background:linear-gradient(135deg,rgba(29,158,117,.05),transparent)}
+.product-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:50px;margin-bottom:16px}
+.badge-green{background:var(--green-light);color:var(--green-dark)}
+.badge-navy{background:var(--navy);color:var(--green-bright)}
+.product-card h3{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--navy);letter-spacing:-.5px;margin-bottom:10px}
+.product-desc{font-size:14px;color:var(--muted);line-height:1.65;margin-bottom:20px}
+.price-row{display:flex;align-items:baseline;gap:8px}
+.price{font-family:'Syne',sans-serif;font-size:50px;font-weight:800;color:var(--green);letter-spacing:-2px;line-height:1}
+.price-label{font-size:13px;color:var(--light)}
+.product-features{padding:26px 30px;flex:1;list-style:none}
+.product-features li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text);padding:8px 0;border-bottom:1px solid var(--border);line-height:1.5}
+.product-features li:last-child{border:none}
+.feat-tick{width:17px;height:17px;min-width:17px;border-radius:50%;background:var(--green-light);border:1px solid rgba(29,158,117,.25);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--green);font-weight:700;margin-top:3px}
+.product-footer{padding:22px 30px;border-top:1px solid var(--border)}
+.buy-btn{display:block;width:100%;padding:14px;border-radius:50px;font-size:15px;font-weight:700;text-align:center;text-decoration:none;transition:all .22s}
+.buy-btn-green{background:var(--green);color:#fff;box-shadow:0 5px 18px rgba(29,158,117,.3)}
+.buy-btn-green:hover{background:var(--green-dark);transform:translateY(-2px)}
+.buy-btn-navy{background:var(--navy);color:#fff;box-shadow:0 5px 18px rgba(0,0,0,.2)}
+.buy-btn-navy:hover{background:#0a0a18;transform:translateY(-2px)}
+.secure-note{font-size:11px;color:var(--light);text-align:center;margin-top:8px}
+@media(max-width:768px){.products-grid{grid-template-columns:1fr;max-width:460px}}
+
+/* ── SHOWCASE ── */
+.showcase-section{background:var(--navy)}
+.showcase-section .eyebrow{color:var(--green-bright)}
+.showcase-section .section-title{color:#fff}
+.showcase-section .section-sub{color:rgba(255,255,255,.4)}
+.showcase-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:56px}
+.template-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:26px;transition:background .3s,transform .3s}
+.template-card:hover{background:rgba(255,255,255,.07);transform:translateY(-4px)}
+.template-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:50px;margin-bottom:14px}
+.tag-story{background:rgba(234,88,12,.15);color:#fb923c}
+.tag-tip{background:rgba(29,158,117,.15);color:#2EC890}
+.tag-hot{background:rgba(220,38,38,.15);color:#f87171}
+.tag-cta{background:rgba(99,102,241,.15);color:#a5b4fc}
+.tag-lead{background:rgba(16,185,129,.15);color:#34d399}
+.template-body{font-size:13px;color:rgba(255,255,255,.62);line-height:1.9}
+.template-body .b{color:var(--green-bright);font-weight:600}
+.template-tip{margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.06);font-size:12px;color:rgba(255,255,255,.28);line-height:1.6}
+.template-tip strong{color:var(--green-bright)}
+.template-more{background:var(--green);border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px;min-height:200px}
+.template-more-num{font-family:'Syne',sans-serif;font-size:54px;font-weight:800;color:#fff;letter-spacing:-2px;line-height:1}
+.template-more p{font-size:14px;color:rgba(255,255,255,.75);margin:8px 0 18px;line-height:1.5}
+.template-more a{background:#fff;color:var(--green);padding:9px 20px;border-radius:50px;font-size:13px;font-weight:700;text-decoration:none;display:inline-block;transition:transform .2s}
+.template-more a:hover{transform:scale(1.05)}
+@media(max-width:768px){.showcase-grid{grid-template-columns:1fr}}
+
+/* ── TESTIMONIALS ── */
+.testimonials-section{background:var(--cream2)}
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:56px}
+.testi-card{background:#fff;border:1px solid var(--border);border-radius:20px;padding:30px;transition:transform .3s,box-shadow .3s}
+.testi-card:hover{transform:translateY(-4px);box-shadow:0 14px 44px rgba(0,0,0,.08)}
+.stars{color:var(--green);font-size:14px;letter-spacing:3px;margin-bottom:14px}
+.testi-quote{font-size:14px;color:var(--muted);line-height:1.8;font-style:italic;margin-bottom:20px}
+.testi-person{display:flex;align-items:center;gap:12px}
+.testi-avatar{width:36px;height:36px;min-width:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#fff}
+.testi-name{font-size:13px;font-weight:700;color:var(--navy)}
+.testi-role{font-size:12px;color:var(--light)}
+@media(max-width:768px){.testimonials-grid{grid-template-columns:1fr;max-width:460px;margin-left:auto;margin-right:auto}}
+
+/* ── FAQ ── */
+.faq-section{background:var(--cream)}
+.faq-list{max-width:680px;margin:56px auto 0}
+.faq-item{border-bottom:1px solid var(--border);padding:20px 0}
+.faq-question{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--navy);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:14px;user-select:none}
+.faq-icon{width:26px;height:26px;min-width:26px;border-radius:50%;background:var(--green-light);border:1px solid rgba(29,158,117,.2);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--green);line-height:1;transition:transform .28s,background .28s}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:var(--green);color:#fff}
+.faq-answer{font-size:15px;color:var(--muted);line-height:1.8;display:none;padding-top:12px}
+.faq-item.open .faq-answer{display:block}
+
+/* ── FINAL CTA ── */
+.final-cta{background:var(--navy);padding:110px 5%;text-align:center;position:relative;overflow:hidden}
+.final-cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:650px;height:650px;border-radius:50%;background:radial-gradient(circle,rgba(29,158,117,.1),transparent 70%);pointer-events:none}
+.final-cta h2{font-family:'Syne',sans-serif;font-size:clamp(34px,4.5vw,58px);font-weight:800;color:#fff;letter-spacing:-2px;line-height:1.06;margin-bottom:18px;position:relative}
+.final-cta h2 em{color:var(--green-bright);font-style:normal}
+.final-cta p{font-size:17px;color:rgba(255,255,255,.45);max-width:460px;margin:0 auto 44px;line-height:1.75;position:relative}
+.final-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative}
+.btn-cta-green{background:var(--green);color:#fff;padding:16px 34px;border-radius:50px;font-size:16px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .22s;box-shadow:0 8px 26px rgba(29,158,117,.4)}
+.btn-cta-green:hover{background:var(--green-dark);transform:translateY(-2px)}
+.btn-cta-ghost{background:rgba(255,255,255,.06);color:#fff;padding:16px 34px;border-radius:50px;font-size:16px;font-weight:700;text-decoration:none;border:1px solid rgba(255,255,255,.12);display:inline-flex;align-items:center;gap:8px;transition:all .22s}
+.btn-cta-ghost:hover{background:rgba(255,255,255,.1)}
+
+/* ── FOOTER ── */
+footer{background:#06060f;padding:44px 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;border-top:1px solid rgba(255,255,255,.04)}
+.footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:#fff;text-decoration:none}
+.footer-logo span{color:var(--green)}
+.footer-links{display:flex;gap:24px}
+.footer-links a{font-size:13px;color:rgba(255,255,255,.25);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--green)}
+.footer-copy{font-size:12px;color:rgba(255,255,255,.15)}
+
+/* ── HERO RESPONSIVE ── */
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-cards{order:-1}
+  h1{font-size:40px;letter-spacing:-1.5px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#top" class="logo">Content<span>Edge</span></a>
+  <div class="nav-links">
+    <a href="#freebie">Free Sample</a>
+    <a href="#products">Products</a>
+    <a href="#templates">Inside PostVault</a>
+    <a href="#faq">FAQ</a>
+    <a href="#products" class="nav-btn">Get Started →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-pill"><span class="hero-pill-dot"></span>LinkedIn Content Systems</div>
+      <h1>Stop guessing.<br>Start getting<br><span class="green">clients.</span></h1>
+      <p class="hero-sub">Done-for-you LinkedIn templates and a complete client-acquisition system — for professionals who want real results, not just followers.</p>
+      <div class="hero-btns">
+        <a href="https://selar.com/5742d38a78" class="btn-primary" target="_blank">Get 5 Free Templates →</a>
+        <a href="#products" class="btn-secondary">See All Products</a>
+      </div>
+      <div class="hero-social-proof">
+        <div class="avatars">
+          <div class="avatar">J</div>
+          <div class="avatar">A</div>
+          <div class="avatar">M</div>
+        </div>
+        <span>Join professionals already using ContentEdge</span>
+      </div>
+    </div>
+    <div class="hero-cards">
+      <div class="hcard">
+        <div class="hcard-label" style="color:var(--muted)">Free Sample</div>
+        <h3>PostVault™ — 5 Templates</h3>
+        <p>Try before you buy. 5 of our best templates, yours instantly.</p>
+        <div class="hcard-free-tag">Free Forever</div>
+      </div>
+      <div class="hcard featured">
+        <div class="hcard-label" style="color:var(--green)">Tier 1 — Entry Product</div>
+        <h3>PostVault™ — Full Vault</h3>
+        <p>100 done-for-you templates. Post in 5 minutes. Look like an expert.</p>
+        <div class="hcard-price">$30</div>
+      </div>
+      <div class="hcard">
+        <div class="hcard-label" style="color:var(--muted)">Tier 2 — Full System</div>
+        <h3>LinkedIn Client Machine™</h3>
+        <p>Profile, DMs, content strategy, closing. The complete playbook.</p>
+        <div class="hcard-price">$55</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <div class="ticker-item"><span class="tdot"></span>100+ Templates</div>
+    <div class="ticker-item"><span class="tdot"></span>No Ad Spend Required</div>
+    <div class="ticker-item"><span class="tdot"></span>Post in <b>5 Minutes</b></div>
+    <div class="ticker-item"><span class="tdot"></span>6 Content Categories</div>
+    <div class="ticker-item"><span class="tdot"></span>10 DM Scripts</div>
+    <div class="ticker-item"><span class="tdot"></span>90-Day Calendar Included</div>
+    <div class="ticker-item"><span class="tdot"></span>Instant Download</div>
+    <div class="ticker-item"><span class="tdot"></span>Built for Creators</div>
+    <div class="ticker-item"><span class="tdot"></span>100+ Templates</div>
+    <div class="ticker-item"><span class="tdot"></span>No Ad Spend Required</div>
+    <div class="ticker-item"><span class="tdot"></span>Post in <b>5 Minutes</b></div>
+    <div class="ticker-item"><span class="tdot"></span>6 Content Categories</div>
+    <div class="ticker-item"><span class="tdot"></span>10 DM Scripts</div>
+    <div class="ticker-item"><span class="tdot"></span>90-Day Calendar Included</div>
+    <div class="ticker-item"><span class="tdot"></span>Instant Download</div>
+    <div class="ticker-item"><span class="tdot"></span>Built for Creators</div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="section-inner centered">
+    <div class="eyebrow">How It Works</div>
+    <h2 class="section-title">Blank page to published post<br>in under 5 minutes</h2>
+    <p class="section-sub">No writing experience needed. No hours staring at a blank screen. Just fill, post, and grow.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <span class="step-icon">📋</span>
+        <div class="step-number">01</div>
+        <h4>Pick your template</h4>
+        <p>Choose from 100 templates across 6 categories — story, tip, hot take, CTA, lead gen, and more. Every one is built to perform on LinkedIn.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-icon">✏️</span>
+        <div class="step-number">02</div>
+        <h4>Fill in the brackets</h4>
+        <p>Replace the [BRACKETS] with your real story, results, or offer. Takes 5 minutes. The entire structure is already done for you.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-icon">🚀</span>
+        <div class="step-number">03</div>
+        <h4>Post and grow</h4>
+        <p>Publish on LinkedIn. Each template is engineered to build authority, generate engagement, and attract your ideal client organically.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FREE SAMPLE -->
+<section class="free-section" id="freebie">
+  <div class="free-grid">
+    <div>
+      <div class="eyebrow">Free — No Credit Card Needed</div>
+      <h2 class="section-title">Get 5 of our best<br>templates free</h2>
+      <p class="section-sub">A story post, tip post, hot take, CTA post, and lead gen post — yours instantly via Selar.</p>
+      <ul class="free-list">
+        <li><span class="tick">✓</span>Template #1 — Story post (Before/After arc)</li>
+        <li><span class="tick">✓</span>Template #2 — Tips post (5-point list format)</li>
+        <li><span class="tick">✓</span>Template #3 — Hot take (drives debate and comments)</li>
+        <li><span class="tick">✓</span>Template #4 — CTA post (sell your offer directly)</li>
+        <li><span class="tick">✓</span>Template #5 — Lead gen post (build your email list)</li>
+        <li><span class="tick">✓</span>Pro tip + "why it works" breakdown for every template</li>
+      </ul>
+      <a href="https://selar.com/5742d38a78" class="btn-primary" target="_blank">Download Free Sample →</a>
+    </div>
+    <div>
+      <div class="free-panel">
+        <h3>Preview — Template #1</h3>
+        <p class="subtitle">A taste of what is waiting inside the free sample:</p>
+        <div class="preview-box">
+          <div class="preview-label">#01 — Story Template (Before/After)</div>
+          <div class="preview-text">
+            6 months ago I was <span class="bracket">[SITUATION]</span>.<br><br>
+            Today I am <span class="bracket">[SPECIFIC RESULT]</span>.<br><br>
+            The difference? I stopped <span class="bracket">[BAD HABIT]</span> and started <span class="bracket">[GOOD HABIT]</span>.<br><br>
+            Here is exactly what changed:<br>
+            → <span class="bracket">[Step 1]</span><br>
+            → <span class="bracket">[Step 2]</span><br>
+            → <span class="bracket">[Step 3]</span><br><br>
+            If I could go back, I would start this on day one.
+          </div>
+        </div>
+        <div class="cta-strip">
+          <div class="cta-strip-text">
+            <p>Ready to use this right now?</p>
+            <span>Delivered instantly via Selar — no signup needed</span>
+          </div>
+          <a href="https://selar.com/5742d38a78" class="btn-white" target="_blank">Get it free →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products-section" id="products">
+  <div class="section-inner centered">
+    <div class="eyebrow">Our Products</div>
+    <h2 class="section-title">Two products. One complete system.</h2>
+    <p class="section-sub">Start with the templates. Upgrade when you are ready for the full client machine.</p>
+    <div class="products-grid">
+
+      <!-- PRODUCT 1 -->
+      <div class="product-card">
+        <div class="product-top">
+          <span class="product-badge badge-green">Tier 1 — Entry Product</span>
+          <h3>PostVault™</h3>
+          <p class="product-desc">100 done-for-you LinkedIn post templates. Fill in the blanks and post in 5 minutes — for professionals who want to show up consistently without the guesswork.</p>
+          <div class="price-row">
+            <div class="price">$30</div>
+            <div class="price-label">One-time · Instant download</div>
+          </div>
+        </div>
+        <ul class="product-features">
+          <li><span class="feat-tick">✓</span>100 fill-in-the-blank post templates</li>
+          <li><span class="feat-tick">✓</span>6 content categories — story, tip, hot take, CTA, lead gen and more</li>
+          <li><span class="feat-tick">✓</span>90-day content calendar included</li>
+          <li><span class="feat-tick">✓</span>10 scroll-stopping headline formulas</li>
+          <li><span class="feat-tick">✓</span>10 viral trigger phrases</li>
+          <li><span class="feat-tick">✓</span>Pro tips and "why it works" for every single template</li>
+          <li><span class="feat-tick">✓</span>Delivered as PDF or Google Doc — instant download</li>
+        </ul>
+        <div class="product-footer">
+          <a href="https://selar.com/92555777r6" class="buy-btn buy-btn-green" target="_blank">Get PostVault™ for $30 →</a>
+          <p class="secure-note">🔒 Secure checkout via Selar · Instant delivery</p>
+        </div>
+      </div>
+
+      <!-- PRODUCT 2 -->
+      <div class="product-card featured">
+        <div class="product-top">
+          <span class="product-badge badge-navy">Tier 2 — Full System</span>
+          <h3>LinkedIn Client Machine™</h3>
+          <p class="product-desc">The complete playbook to turn LinkedIn into a consistent client-getting machine. Profile, DMs, content strategy, and closing — all in one system. PostVault™ included free.</p>
+          <div class="price-row">
+            <div class="price">$55</div>
+            <div class="price-label">One-time · Instant download</div>
+          </div>
+        </div>
+        <ul class="product-features">
+          <li><span class="feat-tick">✓</span>Module 1: Profile optimization — headline, banner and About section formulas</li>
+          <li><span class="feat-tick">✓</span>Module 2: 10 DM scripts with full Day 1, Day 3, Day 7 follow-up sequence</li>
+          <li><span class="feat-tick">✓</span>Module 3: Content strategy for lead gen — full 30-day content plan</li>
+          <li><span class="feat-tick">✓</span>Module 4: Comment-to-client system — 5 comment templates included</li>
+          <li><span class="feat-tick">✓</span>Module 5: Closing scripts, discovery call framework and objection handling</li>
+          <li><span class="feat-tick">✓</span>Module 6: Weekly action checklist — your 30-minute daily LinkedIn routine</li>
+          <li><span class="feat-tick">✓</span>PostVault™ — all 100 templates bundled in completely free</li>
+        </ul>
+        <div class="product-footer">
+          <a href="https://selar.com/j422b771g0" class="buy-btn buy-btn-navy" target="_blank">Get the Client Machine for $55 →</a>
+          <p class="secure-note">🔒 Secure checkout via Selar · Instant delivery</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TEMPLATE SHOWCASE -->
+<section class="showcase-section" id="templates">
+  <div class="section-inner centered">
+    <div class="eyebrow">Inside PostVault™</div>
+    <h2 class="section-title">A glimpse of what is inside</h2>
+    <p class="section-sub">Every template is plug-and-play. Fill in the brackets. Post. Repeat.</p>
+    <div class="showcase-grid">
+      <div class="template-card">
+        <span class="template-tag tag-story">Story</span>
+        <div class="template-body">
+          6 months ago I was <span class="b">[SITUATION]</span>.<br><br>
+          Today I am <span class="b">[RESULT]</span>.<br><br>
+          The difference? I stopped <span class="b">[BAD HABIT]</span> and started <span class="b">[GOOD HABIT]</span>.<br><br>
+          Here is what changed:<br>
+          → <span class="b">[Step 1]</span><br>
+          → <span class="b">[Step 2]</span><br>
+          → <span class="b">[Step 3]</span>
+        </div>
+        <div class="template-tip"><strong>Pro tip:</strong> Before/after is the most powerful story arc on LinkedIn. Specific numbers always outperform vague claims.</div>
+      </div>
+      <div class="template-card">
+        <span class="template-tag tag-tip">Tips</span>
+        <div class="template-body">
+          5 things every LinkedIn profile needs (most people miss #3):<br><br>
+          1. A headline that speaks to your buyer, not your job title<br>
+          2. A banner that shows your niche in 3 seconds<br>
+          3. A first-person About section that tells a story<br>
+          4. A Featured section pinned with your best content<br>
+          5. At least 3 recent posts so visitors know you are active
+        </div>
+        <div class="template-tip"><strong>Pro tip:</strong> End with a question. Questions boost comments by 60–80% and signal to LinkedIn that people should engage.</div>
+      </div>
+      <div class="template-card">
+        <span class="template-tag tag-hot">Hot Take</span>
+        <div class="template-body">
+          Unpopular opinion: Posting every day on LinkedIn is NOT the key to growth.<br><br>
+          Everyone says consistency is king. Post daily. Build the habit.<br><br>
+          Here is what I actually think: quality compounds. Noise gets ignored.<br><br>
+          One deeply valuable post per week beats seven forgettable ones.
+        </div>
+        <div class="template-tip"><strong>Pro tip:</strong> Do not soften your take. Hedging kills engagement. People who agree AND disagree both boost your reach.</div>
+      </div>
+      <div class="template-card">
+        <span class="template-tag tag-cta">CTA</span>
+        <div class="template-body">
+          I spent <span class="b">[TIME]</span> building <span class="b">[PRODUCT NAME]</span>.<br><br>
+          Not because it was easy — because I kept seeing <span class="b">[PROBLEM]</span>.<br><br>
+          Inside, you get:<br>
+          → <span class="b">[Benefit 1]</span><br>
+          → <span class="b">[Benefit 2]</span><br>
+          → <span class="b">[Benefit 3]</span><br><br>
+          <span class="b">[PRICE]</span> · Instant download. Link in comments 👇
+        </div>
+        <div class="template-tip"><strong>Pro tip:</strong> Put the link in COMMENTS — not the post body. LinkedIn suppresses posts with external links.</div>
+      </div>
+      <div class="template-card">
+        <span class="template-tag tag-lead">Lead Gen</span>
+        <div class="template-body">
+          Are you a <span class="b">[ROLE]</span> who wants <span class="b">[OUTCOME]</span> but keeps running into <span class="b">[OBSTACLE]</span>?<br><br>
+          I am putting together a free <span class="b">[GUIDE/CHECKLIST]</span> on <span class="b">[TOPIC]</span>.<br><br>
+          Comment <span class="b">"[KEYWORD]"</span> below and I will DM it to you directly.
+        </div>
+        <div class="template-tip"><strong>Pro tip:</strong> Comment CTAs get 3–5x more responses than link CTAs — they keep people on-platform and LinkedIn rewards that with wider reach.</div>
+      </div>
+      <div class="template-more">
+        <div class="template-more-num">95+</div>
+        <p>more templates waiting inside PostVault™ — stories, tips, hot takes, CTAs, lead gen posts and more</p>
+        <a href="https://selar.com/92555777r6" target="_blank">Get the full vault →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section" id="testimonials">
+  <div class="section-inner centered">
+    <div class="eyebrow">What People Are Saying</div>
+    <h2 class="section-title">Results speak louder than features</h2>
+    <p class="section-sub">Real feedback from professionals who have used ContentEdge products.</p>
+    <div class="testimonials-grid">
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-quote">"I had been stuck on what to post for months. Downloaded PostVault on a Thursday, posted two templates that weekend, and had 3 people DM me asking about my services. Worth every penny."</p>
+        <div class="testi-person">
+          <div class="testi-avatar" style="background:var(--navy)">S</div>
+          <div>
+            <div class="testi-name">Sarah K.</div>
+            <div class="testi-role">B2B Consultant</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-quote">"The Client Machine is the most practical LinkedIn guide I have come across. Not vague advice — actual scripts, actual frameworks. Booked my first discovery call from a DM in week 2."</p>
+        <div class="testi-person">
+          <div class="testi-avatar" style="background:var(--green)">M</div>
+          <div>
+            <div class="testi-name">Marcus T.</div>
+            <div class="testi-role">Freelance Designer</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-quote">"$30 for 100 templates was a no-brainer. I have used maybe 20 so far and my follower count has doubled in 6 weeks. The hot take templates are absolutely fire."</p>
+        <div class="testi-person">
+          <div class="testi-avatar" style="background:#2a4a7a">A</div>
+          <div>
+            <div class="testi-name">Aisha D.</div>
+            <div class="testi-role">Career Coach</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="section-inner centered">
+    <div class="eyebrow">FAQ</div>
+    <h2 class="section-title">Questions? Answered.</h2>
+    <div class="faq-list">
+      <div class="faq-item open">
+        <div class="faq-question">What format are the products delivered in? <span class="faq-icon">+</span></div>
+        <div class="faq-answer">Both PostVault™ and the LinkedIn Client Machine™ are delivered as PDF or Google Doc format — instantly after purchase through Selar. You will receive your download link immediately after checkout. No waiting, no delays.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Do I need a large following to use these? <span class="faq-icon">+</span></div>
+        <div class="faq-answer">A small following helps but it is absolutely not required. PostVault™ works from zero — the templates are built to generate engagement and grow your following at the same time. Many buyers start with under 100 connections and see results within the first 2 weeks of posting consistently.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">What is the difference between Tier 1 and Tier 2? <span class="faq-icon">+</span></div>
+        <div class="faq-answer">PostVault™ ($30) gives you 100 post templates so you always know what to write and how to write it. The LinkedIn Client Machine™ ($55) gives you the full system underneath the content — profile optimization, 10 DM scripts with follow-up sequences, a 30-day content strategy, a comment-to-client system, and a complete closing playbook. Buying the Client Machine gives you everything — PostVault™ (all 100 templates) is bundled in for free.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Can I use these in a niche industry? <span class="faq-icon">+</span></div>
+        <div class="faq-answer">Yes — 100%. Every template uses [BRACKETS] that you replace with your own industry, story, niche, and offer. The frameworks are universal and work across B2B consulting, coaching, freelancing, recruitment, e-commerce, finance, and more. If you can fill in a blank, you can use these templates.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">What is the refund policy? <span class="faq-icon">+</span></div>
+        <div class="faq-answer">Due to the instant-access digital nature of these products, all sales are final. No refunds are offered once the product has been downloaded. We strongly recommend downloading the free 5-template sample first to make sure ContentEdge is the right fit for you before purchasing.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">How quickly will I see results? <span class="faq-icon">+</span></div>
+        <div class="faq-answer">Most people who post consistently using the templates see a measurable increase in profile views and engagement within 2 weeks. Results will vary depending on your niche, your consistency, and how much of the system you apply. LinkedIn is a long game — the creators who win are the ones who show up consistently for 60 to 90 days.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Is payment secure? <span class="faq-icon">+</span></div>
+        <div class="faq-answer">Yes. All payments are processed through Selar — one of Africa's most trusted digital product platforms, used by over 241,000 creators. Selar supports multiple currencies including GBP and USD. Your payment information is never stored by ContentEdge.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <h2>Your LinkedIn is either<br>working for you — <em>or it is not.</em></h2>
+  <p>Start with 5 free templates. No card required. See what a well-structured post does for your reach.</p>
+  <div class="final-btns">
+    <a href="https://selar.com/5742d38a78" class="btn-cta-green" target="_blank">Get 5 Free Templates →</a>
+    <a href="#products" class="btn-cta-ghost">See Paid Products</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#top" class="footer-logo">Content<span>Edge</span></a>
+  <div class="footer-links">
+    <a href="https://selar.com/5742d38a78" target="_blank">Free Sample</a>
+    <a href="#products">Products</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <div class="footer-copy">© 2025 ContentEdge. All rights reserved.</div>
+</footer>
+
+<script>
+document.querySelectorAll(".faq-question").forEach(function(q){
+  q.addEventListener("click",function(){
+    var item=q.parentElement;
+    var wasOpen=item.classList.contains("open");
+    document.querySelectorAll(".faq-item").forEach(function(i){i.classList.remove("open")});
+    if(!wasOpen){item.classList.add("open")}
+  });
+});
+</script>
+</body>
+</html>
